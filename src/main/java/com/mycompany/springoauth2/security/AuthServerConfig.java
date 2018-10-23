@@ -6,10 +6,11 @@
 package com.mycompany.springoauth2.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -19,6 +20,7 @@ import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
+ * Genera token para inicio de sesion
  *
  * @author matia
  */
@@ -56,7 +58,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     private AccessTokenConverter accessTokenConverter;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    @Qualifier("oauthPasswordEncoder")
+    private PasswordEncoder oauthPasswordEncoder;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer configurer) {
@@ -70,7 +73,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         configurer
                 .inMemory()
                 .withClient(CLIENT_ID)
-                .secret(this.passwordEncoder.encode(CLIENT_SECRET))
+                .secret(this.oauthPasswordEncoder.encode(CLIENT_SECRET))
                 .authorizedGrantTypes(GRANT_TYPE_PASSWORD, AUTHORIZATION_CODE, REFRESH_TOKEN, IMPLICIT)
                 .scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
                 .resourceIds(this.resourceId)

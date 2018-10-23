@@ -7,7 +7,9 @@ package com.mycompany.springoauth2.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  *
@@ -16,8 +18,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 public class Encoders {
     
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    @Primary
+    @Bean("userPasswordEncoder")
+    public PasswordEncoder userPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    
+    @Bean("oauthPasswordEncoder")
+    public PasswordEncoder oauthPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
     

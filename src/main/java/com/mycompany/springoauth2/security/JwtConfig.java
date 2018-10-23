@@ -12,7 +12,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 /**
- *
+ * TokenStore de JWT
+ * 
  * @author matia
  */
 @Configuration
