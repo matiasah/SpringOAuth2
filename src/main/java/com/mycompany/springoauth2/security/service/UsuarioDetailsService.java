@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.springoauth2.security;
+package com.mycompany.springoauth2.security.service;
 
 import com.mycompany.springoauth2.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.springoauth2.security;
+package com.mycompany.springoauth2.security.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
@@ -29,17 +29,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     private String resourceId;
 
     @Autowired
-    private DefaultTokenServices tokenServices;
-
-    @Autowired
-    private TokenStore tokenStore;
+    private ResourceServerTokenServices tokenServices;
 
     @Override
     public void configure(ResourceServerSecurityConfigurer configurer) {
         configurer
                 .resourceId(this.resourceId)
-                .tokenServices(this.tokenServices)
-                .tokenStore(this.tokenStore);
+                .tokenServices(this.tokenServices);
     }
 
     @Override

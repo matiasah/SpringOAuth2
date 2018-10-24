@@ -5,38 +5,31 @@
  */
 package com.mycompany.springoauth2.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 /**
- * TokenStore de JWT
+ * TokenStore
  * 
  * @author matia
  */
 @Configuration
-public class JwtConfig {
+public class TokenConfig {
     
-    private static final String SECRET = "123";
+    @Value("${security.jwt.secret}")
+    private String SECRET;
     
     @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
-        
-        accessTokenConverter.setSigningKey(SECRET);
-        
-        return accessTokenConverter;
+    public TokenStore tokenStore() {
+        return new InMemoryTokenStore();
     }
     
     @Bean
-    public JwtTokenStore tokenStore(JwtAccessTokenConverter accessTokenConverter) {
-        return new JwtTokenStore(accessTokenConverter);
-    }
-    
-    @Bean
-    public DefaultTokenServices tokenServices(JwtTokenStore tokenStore) {
+    public DefaultTokenServices tokenServices(TokenStore tokenStore) {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(tokenStore);
         defaultTokenServices.setSupportRefreshToken(true);

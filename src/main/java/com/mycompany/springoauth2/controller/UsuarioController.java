@@ -31,10 +31,11 @@ public class UsuarioController {
     
     /**
      * Ruta asegurada con acceso 'read'
+     * https://docs.spring.io/spring-security/oauth/apidocs/org/springframework/security/oauth2/provider/expression/OAuth2SecurityExpressionMethods.html#isUser()
      * 
      * @return 
      */
-    @PreAuthorize("#oauth2.hasScope('read')")
+    @PreAuthorize("#oauth2.isUser()")
     @GetMapping("usuario")
     public List<Usuario> index() {
         return this.usuarioRepository.findAll();
